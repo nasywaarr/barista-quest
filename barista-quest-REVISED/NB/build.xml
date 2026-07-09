@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project name="JavaCoffeeQuest" default="run" basedir=".">
+
+    <property name="src.dir"           value="src"/>
+    <property name="build.dir"         value="build"/>
+    <property name="build.classes.dir" value="${build.dir}/classes"/>
+    <property name="dist.dir"          value="dist"/>
+    <property name="dist.jar"          value="${dist.dir}/JavaCoffeeQuest.jar"/>
+    <property name="main.class"        value="Main"/>
+    <property name="javac.source"      value="17"/>
+    <property name="javac.target"      value="17"/>
+
+    <target name="init">
+        <mkdir dir="${build.classes.dir}"/>
+        <mkdir dir="${dist.dir}"/>
+    </target>
+
+    <target name="compile" depends="init">
+        <javac srcdir="${src.dir}"
+               destdir="${build.classes.dir}"
+               release="17"
+               encoding="UTF-8"
+               includeantruntime="false">
+        </javac>
+    </target>
+
+    <target name="jar" depends="compile">
+        <jar destfile="${dist.jar}" basedir="${build.classes.dir}">
+            <manifest>
+                <attribute name="Main-Class" value="${main.class}"/>
+            </manifest>
+        </jar>
+        <echo message="JAR built: ${dist.jar}"/>
+    </target>
+
+    <target name="run" depends="compile">
+        <java classname="${main.class}"
+              classpath="${build.classes.dir}"
+              fork="true"
+              failonerror="true">
+        </java>
+    </target>
+
+    <!-- NetBeans "Run File" button uses this target -->
+    <target name="run-single" depends="compile">
+        <java classname="${run.class}"
+              classpath="${build.classes.dir}"
+              fork="true"
+              failonerror="true">
+        </java>
+    </target>
+
+    <target name="clean">
+        <delete dir="${build.dir}"/>
+        <delete dir="${dist.dir}"/>
+    </target>
+
+    <target name="default" depends="run"/>
+
+</project>
